@@ -23,6 +23,10 @@ mall-server -> mall_zuul -> mall_goods -> mall_user
 
 后端启动完成 登录用户名：djk  密码：123456
 
+![image](http://github.com/djkdeveloper/mall/raw/master/images/login.png)
+
+![image](http://github.com/djkdeveloper/mall/raw/master/images/desk.png)
+
 
 前端github地址：https://github.com/djkdeveloper/mall-view.git
 前端码云地址：https://gitee.com/djkdeveloper/mall-view.git
