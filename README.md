@@ -25,7 +25,7 @@ mall-server -> mall_zuul -> mall_goods -> mall_user
 
 ![image](https://raw.githubusercontent.com/djkdeveloper/mall/master/images/login.png)
 
-![image](http://github.com/djkdeveloper/mall/raw/master/images/desk.png)
+![image](https://raw.githubusercontent.com/djkdeveloper/mall/master/images/desk.png)
 
 
 前端github地址：https://github.com/djkdeveloper/mall-view.git
