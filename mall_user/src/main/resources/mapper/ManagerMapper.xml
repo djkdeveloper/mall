@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.djk.manager.ManagerMapper">
+
+    <resultMap id="manager" type="com.djk.manager.Manager">
+        <result column="id" property="id"/>
+        <result column="username" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="creator" property="creator"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="queryByName" parameterType="java.lang.String" resultMap="manager">
+		select * from djk_manager where username= #{userName} and del_flag = 0
+	</select>
+
+    <select id="queryById" parameterType="java.lang.Long" resultMap="manager">
+        select * from djk_manager where id= #{id} and del_flag = 0
+    </select>
+
+
+    <select id="queryManagers" parameterType="java.util.Map" resultMap="manager">
+        select * from djk_manager
+        where del_flag = '0' and creator = #{managerId}
+        <if test="name != null and name != '' ">
+            AND name like CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+
+        order by create_time desc
+        limit #{startRowNum},#{pageSize}
+    </select>
+
+    <select id="queryManagerCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from djk_manager
+        where del_flag = '0' and creator = #{managerId}
+        <if test="name != null and name != '' ">
+            AND name like CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+    </select>
+
+    <insert id="addManager" parameterType="com.djk.manager.Manager" useGeneratedKeys="true" keyProperty="id">
+        insert into djk_manager
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            del_flag,create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                #{userName},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="creator != null">
+                #{creator},
+            </if>
+            '0',now()
+        </trim>
+    </insert>
+
+    <insert id="addManagerRole" parameterType="com.djk.manager.ManagerRole">
+            insert into djk_manager_role (manager_id,role_id) values(#{managerId},#{roleId})
+    </insert>
+
+    <update id="deleteManagers" parameterType="java.util.Map">
+        update djk_manager SET del_flag = '1' WHERE creator = #{managerId} and id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <delete id="deleteManagerRoles" parameterType="java.lang.Long">
+        delete from djk_manager_role WHERE manager_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="queryCountByName" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from djk_manager where del_flag = '0' and username = #{name} and id != #{id}
+    </select>
+
+    <select id="queryManagerById" parameterType="java.util.Map" resultMap="manager">
+        select * from djk_manager where id = #{id} and creator = #{managerId}
+    </select>
+
+    <delete id="deleteManagerRole" parameterType="java.lang.Long">
+        delete from djk_manager_role where manager_id = #{managerId}
+    </delete>
+    <update id="updateManager" parameterType="com.djk.manager.Manager">
+        update djk_manager set username = #{userName} where id = #{id} and creator = #{creator}
+    </update>
+</mapper>

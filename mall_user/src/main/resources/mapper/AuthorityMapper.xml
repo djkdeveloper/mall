@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.djk.authority.AuthorityMapper">
+
+    <resultMap id="authority" type="com.djk.authority.Authority">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="url" property="url"/>
+        <result column="action" property="action"/>
+        <result column="parentId" property="parentId"/>
+        <result column="grade" property="grade"/>
+        <result column="code" property="code"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+
+    <select id="queryManagerAuthoritys" parameterType="java.lang.Long" resultMap="authority">
+select da.* from djk_manager_role dmr JOIN djk_role_authority dra on dmr.role_id = dra.role_id
+JOIN djk_authority da on da.id = dra.authority_id where dmr.manager_id = #{id}
+   </select>
+
+    <select id="queryByRoleId" parameterType="java.lang.Long" resultMap="authority">
+        select da.* from djk_role_authority dra join djk_authority da on dra.authority_id = da.id where dra.role_id =  #{roleId}
+    </select>
+</mapper>

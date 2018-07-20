@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djk.brand.BrandMapper">
+
+    <resultMap id="brand" type="com.djk.brand.Brand">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+
+    <select id="queryBrands" parameterType="java.util.Map" resultMap="brand">
+        select * from djk_brand
+        where del_flag = '0'
+        <if test="name != null and name != '' ">
+            AND name like CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+
+        order by create_time desc
+        limit #{startRowNum},#{pageSize}
+    </select>
+
+    <select id="queryBrandsCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from djk_brand
+        where del_flag = '0'
+        <if test="name != null and name != '' ">
+            AND name like CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+    </select>
+
+    <insert id="addBrand" parameterType="com.djk.brand.Brand">
+        insert into djk_brand
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            del_flag,create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name},
+            </if>
+            '0',now()
+        </trim>
+    </insert>
+
+    <update id="deleteBrand" parameterType="java.lang.Long">
+        UPDATE djk_brand SET del_flag = '1' WHERE id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="queryBrandById" parameterType="java.lang.Long" resultMap="brand">
+        select * from djk_brand where id = #{id} and del_flag = '0'
+    </select>
+
+    <select id="queryAllBrands" resultMap="brand">
+        select * from djk_brand where del_flag = '0'
+    </select>
+
+    <update id="updatBrand" parameterType="com.djk.brand.Brand">
+        UPDATE djk_brand SET name = #{name} ,modify_time = now() WHERE id =#{id}
+    </update>
+</mapper>

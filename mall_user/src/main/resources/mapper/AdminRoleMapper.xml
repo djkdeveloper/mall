@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djk.role.AdminRoleMapper">
+
+    <resultMap id="adminRole" type="com.djk.role.AdminRole">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+
+    <select id="queryRoles" parameterType="java.util.Map" resultMap="adminRole">
+        select * from djk_role
+        where creator = #{managerId}
+        <if test="name != null and name != '' ">
+            AND name like CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+
+        order by create_time desc
+        limit #{startRowNum},#{pageSize}
+    </select>
+
+    <select id="queryRolesCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from djk_role
+        where creator = #{managerId}
+        <if test="name != null and name != '' ">
+            AND name like CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+    </select>
+
+
+    <insert id="addRole" parameterType="com.djk.role.AdminRole" useGeneratedKeys="true" keyProperty="id">
+        insert into djk_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            creator,
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name},
+            </if>
+            #{creator},
+            now()
+        </trim>
+    </insert>
+
+    <insert id="addRoleAuthoritys" parameterType="java.util.List">
+        INSERT INTO djk_role_authority (role_id,authority_id) VALUES
+        <foreach collection="list" index="index" item="roleAndAuth" separator=",">
+            (
+            #{roleAndAuth.roleId},#{roleAndAuth.authorityId}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteRoles" parameterType="java.util.Map">
+        delete from djk_role WHERE creator = #{managerId} and id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteRoleAuthoritys" parameterType="java.lang.Long">
+        delete from djk_role_authority WHERE role_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="queryManagerRole" parameterType="java.lang.Long" resultMap="adminRole">
+        select dr.* from djk_manager_role dmr join djk_role dr on dr.id = dmr.role_id where dmr.manager_id = #{managerId}
+    </select>
+
+    <select id="queryManagerCreatedRoles" parameterType="java.lang.Long" resultMap="adminRole">
+        select * from djk_role where creator = #{managerId}
+    </select>
+
+    <select id="roleManagerCount" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select count(1) from djk_manager_role where role_id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="queryRoleById" parameterType="java.util.Map" resultMap="adminRole">
+        select * from djk_role where id = #{id} and creator = #{managerId}
+    </select>
+
+    <update id="updateRole" parameterType="com.djk.role.AdminRole">
+        update djk_role set name = #{name}, modify_time = now() where id = #{id} and creator = #{creator}
+    </update>
+</mapper>

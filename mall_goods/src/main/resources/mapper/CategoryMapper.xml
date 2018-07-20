@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djk.category.CategoryMapper">
+
+    <resultMap id="category" type="com.djk.category.Category">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="sort" property="sort"/>
+        <result column="grade" property="grade"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+
+    <select id="queryCategorys" resultMap="category">
+        select * from djk_category
+        where del_flag = '0'
+        order by sort
+    </select>
+
+    <select id="queryCategoryByGrade" parameterType="java.lang.Integer" resultMap="category">
+        select * from djk_category where grade = #{grade} and del_flag = '0'
+    </select>
+
+    <select id="queryCategoryById" parameterType="java.lang.Long" resultMap="category">
+        select * from djk_category where id= #{id} and del_flag = '0'
+    </select>
+
+    <update id="updateCategory" parameterType="com.djk.category.Category">
+               UPDATE djk_category SET name = #{name} , sort = #{sort} ,modify_time = now() WHERE id =#{id}
+    </update>
+
+    <update id="deleteCategory" parameterType="java.lang.Long">
+           UPDATE djk_category SET del_flag = '1' WHERE id =#{id}
+    </update>
+
+    <select id="queryChildrenNum" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select count(1) from djk_category where parent_id = #{id}
+    </select>
+
+    <select id="queryChildren" parameterType="java.lang.Long" resultMap="category">
+          select * from djk_category where parent_id= #{id} and del_flag = '0'
+    </select>
+
+    <insert id="addCategory" parameterType="com.djk.category.Category">
+        insert into djk_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="grade != null">
+                grade,
+            </if>
+            del_flag,create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="parentId != null">
+                #{parentId},
+            </if>
+            <if test="sort != null">
+                #{sort},
+            </if>
+            <if test="grade != null">
+                #{grade},
+            </if>
+            '0',now()
+        </trim>
+    </insert>
+</mapper>

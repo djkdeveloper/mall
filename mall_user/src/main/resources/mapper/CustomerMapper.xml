@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djk.customer.CustomerMapper">
+
+    <resultMap id="customer" type="com.djk.customer.Customer">
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="mobile" property="mobile"/>
+        <result column="pic" property="pic"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+
+    <insert id="addCustomer" parameterType="com.djk.customer.Customer">
+        insert into djk_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="pic != null">
+                pic,
+            </if>
+            del_flag,create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="mobile != null">
+                #{mobile},
+            </if>
+            <if test="pic != null">
+                #{pic},
+            </if>
+            '0',now()
+        </trim>
+    </insert>
+
+    <select id="queryCustomers" parameterType="java.util.Map" resultMap="customer">
+        select * from djk_customer
+        where del_flag = '0'
+        <if test="name != null and name != '' ">
+            AND username like CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+
+        <if test="mobile != null and mobile != '' ">
+            AND mobile = #{mobile}
+        </if>
+        order by create_time desc
+        limit #{startRowNum},#{pageSize}
+    </select>
+
+    <select id="queryCustomerCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from djk_customer
+        where del_flag = '0'
+        <if test="name != null and name != '' ">
+            AND username like CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+
+        <if test="mobile != null and mobile != '' ">
+            AND mobile = #{mobile}
+        </if>
+    </select>
+
+    <update id="deleteCustomers" parameterType="java.lang.Long">
+        UPDATE djk_customer SET del_flag = '1' WHERE id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+
+    <select id="queryCustomerById" parameterType="java.lang.Long" resultMap="customer">
+        select * from djk_customer where id = #{id} and del_flag = '0'
+    </select>
+
+
+    <update id="updateCustomer" parameterType="com.djk.customer.Customer">
+        UPDATE djk_customer SET username = #{username} ,mobile = #{mobile},modify_time = now() WHERE id =#{id} and del_flag = '0'
+    </update>
+
+    <select id="queryCountByName" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from djk_customer where del_flag = '0' and username = #{username} and id != #{id}
+    </select>
+
+
+    <select id="queryCountByMobile" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from djk_customer where del_flag = '0' and mobile = #{mobile}  and id != #{id}
+    </select>
+</mapper>

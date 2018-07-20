@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djk.spu.SpuMapper">
+
+    <resultMap id="spu" type="com.djk.spu.Spu">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="brand_id" property="brandId"/>
+        <result column="first_cate_id" property="firstCateId"/>
+        <result column="second_cate_id" property="secondCateId"/>
+        <result column="third_cate_id" property="thirdCateId"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="pic" property="pic"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+    <update id="updateSpu" parameterType="com.djk.spu.Spu">
+        UPDATE djk_spu SET name = #{name} , price = #{price},stock= #{stock}, brand_id=#{brandId} ,first_cate_id=#{firstCateId} ,
+        second_cate_id = #{secondCateId},third_cate_id=#{thirdCateId},modify_time = now()
+        WHERE id =#{id}
+    </update>
+
+    <insert id="addSpu" parameterType="com.djk.spu.Spu">
+        insert into djk_spu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="stock != null">
+                stock,
+            </if>
+            <if test="firstCateId != null">
+                first_cate_id,
+            </if>
+            <if test="secondCateId != null">
+                second_cate_id,
+            </if>
+            <if test="thirdCateId != null">
+                third_cate_id,
+            </if>
+            <if test="brandId != null">
+                brand_id,
+            </if>
+            del_flag,create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="price != null">
+                #{price},
+            </if>
+            <if test="stock != null">
+                #{stock},
+            </if>
+            <if test="firstCateId != null">
+                #{firstCateId},
+            </if>
+            <if test="secondCateId != null">
+                #{secondCateId},
+            </if>
+            <if test="thirdCateId != null">
+                #{thirdCateId},
+            </if>
+            <if test="brandId != null">
+                #{brandId},
+            </if>
+            '0',now()
+        </trim>
+    </insert>
+
+
+    <select id="querySpus" parameterType="java.util.Map" resultMap="spu">
+        select * from djk_spu
+        where del_flag = '0'
+        <if test="name != null and name != '' ">
+            AND name like CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+
+        order by create_time desc
+        limit #{startRowNum},#{pageSize}
+    </select>
+
+    <select id="querySpuCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1) from djk_spu
+        where del_flag = '0'
+        <if test="name != null and name != '' ">
+            AND name like CONCAT(CONCAT('%', #{name}),'%')
+        </if>
+    </select>
+
+    <select id="queryById" parameterType="java.lang.Long" resultMap="spu">
+        select * from djk_spu
+        where del_flag = '0' and id = #{id}
+    </select>
+
+    <update id="deleteSpus" parameterType="java.lang.Long">
+        UPDATE djk_spu SET del_flag = '1' WHERE id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>
