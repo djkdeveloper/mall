@@ -23,7 +23,7 @@ mall-server -> mall_zuul -> mall_goods -> mall_user
 
 后端启动完成 登录用户名：djk  密码：123456
 
-![image](http://github.com/djkdeveloper/mall/raw/master/images/login.png)
+![image](https://raw.githubusercontent.com/djkdeveloper/mall/master/images/login.png)
 
 ![image](http://github.com/djkdeveloper/mall/raw/master/images/desk.png)
 
