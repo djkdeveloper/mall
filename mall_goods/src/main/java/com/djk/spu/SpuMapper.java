@@ -42,7 +42,7 @@ public interface SpuMapper {
      * @param ids 商品id
      * @return 成功返回>0 失败返回0
      */
-    int deleteSpus(long[] ids);
+    int deleteSpus(Long[] ids);
 
     /**
      * 根据商品id查询商品信息

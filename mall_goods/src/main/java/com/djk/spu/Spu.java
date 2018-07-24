@@ -2,6 +2,7 @@ package com.djk.spu;
 
 import com.djk.brand.Brand;
 import com.djk.category.Category;
+import com.djk.feign.EsSpu;
 import com.djk.utils.CustomLocalDateTimeDeserializer;
 import com.djk.utils.CustomLocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -73,7 +74,7 @@ public class Spu {
      */
     @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
     @JsonDeserialize(using = CustomLocalDateTimeDeserializer.class)
-    private LocalDateTime createTime;
+    private LocalDateTime createTime = LocalDateTime.now();
 
     /**
      * 修改时间
@@ -91,5 +92,24 @@ public class Spu {
      * 商品的品牌
      */
     private Brand brand;
+
+
+    /**
+     * 将商品数据转化成es的商品数据
+     *
+     * @return 返回es的商品数据
+     */
+    public EsSpu convertToEsSpu() {
+        EsSpu esSpu = new EsSpu();
+        esSpu.setId(String.valueOf(this.id));
+        esSpu.setSpuName(this.name);
+        esSpu.setPrice(this.price);
+        esSpu.setStock(this.stock);
+        esSpu.setFCateId(this.firstCateId);
+        esSpu.setSCateId(this.secondCateId);
+        esSpu.setTCateId(this.thirdCateId);
+        esSpu.setCreateTime(this.createTime);
+        return esSpu;
+    }
 
 }

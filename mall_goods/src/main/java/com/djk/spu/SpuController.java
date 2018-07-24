@@ -87,7 +87,7 @@ public class SpuController {
      * @return 成功返回》0 失败返回0
      */
     @DeleteMapping
-    public int deleteSpus(long[] ids) {
+    public int deleteSpus(Long[] ids) {
         return spuService.deleteSpus(ids);
     }
 

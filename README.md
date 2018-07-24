@@ -14,9 +14,12 @@ jdk的版本是java8
 mall_goods 商品模块
 mall_server eureka服务模块
 mall_user 用户模块
-mall_zuul zuul模块
-
+mall_zuul zuul模
 拿到项目后导入sql  sql是djk_mall.sql 数据库使用的是mysql 5.7.20
+
+项目加入了elasticsearch
+这边要注意 elasticesarch 的版本必须是 elasticsearch-5.5.0
+使用的是ik分词器  ik和es配套的版本是:elasticsearch-analysis-ik-5.5.0
 
 启动项目顺序
 mall-server -> mall_zuul -> mall_goods -> mall_user

@@ -31,7 +31,7 @@ public interface SpuService {
      * @param ids 商品id集合
      * @return 成功》0 失败=0
      */
-    int deleteSpus(long[] ids);
+    int deleteSpus(Long[] ids);
 
     /**
      * 根据商品id查询商品信息

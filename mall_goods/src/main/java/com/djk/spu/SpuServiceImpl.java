@@ -2,6 +2,8 @@ package com.djk.spu;
 
 import com.djk.brand.BrandService;
 import com.djk.category.CategoryService;
+import com.djk.feign.EsService;
+import com.djk.feign.EsSpu;
 import com.djk.utils.Log;
 import com.djk.utils.PageHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -9,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by dujinkai on 2018/7/12.
@@ -40,6 +44,12 @@ public class SpuServiceImpl implements SpuService {
     @Autowired
     private CategoryService categoryService;
 
+    /**
+     * 注入es服务接口
+     */
+    @Autowired
+    private EsService esService;
+
     @Log
     @Override
     public PageHelper<Spu> querySpus(PageHelper<Spu> pageHelper, String name) {
@@ -52,13 +62,20 @@ public class SpuServiceImpl implements SpuService {
     @Log
     @Override
     public int addSpu(Spu spu) {
-        return spuMapper.addSpu(spu);
+        if (spuMapper.addSpu(spu) > 0) {
+            esService.addSpuToEs(Arrays.asList(spu.convertToEsSpu()));
+        }
+        return 0;
     }
 
     @Log
     @Override
-    public int deleteSpus(long[] ids) {
-        return spuMapper.deleteSpus(ids);
+    public int deleteSpus(Long[] ids) {
+        if (spuMapper.deleteSpus(ids) > 0) {
+            esService.delete(Stream.of(ids).map(String::valueOf).collect(Collectors.toList()));
+            return 1;
+        }
+        return 0;
     }
 
 
@@ -72,7 +89,11 @@ public class SpuServiceImpl implements SpuService {
     @Log
     @Override
     public int updateSpu(Spu spu) {
-        return spuMapper.updateSpu(spu);
+        if (spuMapper.updateSpu(spu) > 0) {
+            esService.update(spu.convertToEsSpu());
+            return 1;
+        }
+        return 0;
     }
 
     /**

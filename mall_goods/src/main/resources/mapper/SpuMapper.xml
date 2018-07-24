@@ -23,7 +23,7 @@
         WHERE id =#{id}
     </update>
 
-    <insert id="addSpu" parameterType="com.djk.spu.Spu">
+    <insert id="addSpu" parameterType="com.djk.spu.Spu" useGeneratedKeys="true" keyProperty="id">
         insert into djk_spu
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">
