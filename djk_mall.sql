@@ -11,7 +11,7 @@
  Target Server Version : 50635
  File Encoding         : utf-8
 
- Date: 07/20/2018 16:20:32 PM
+ Date: 07/28/2018 06:52:09 AM
 */
 
 SET NAMES utf8mb4;
@@ -52,7 +52,14 @@ CREATE TABLE `djk_brand` (
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `modify_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COMMENT='商品品牌';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='商品品牌';
+
+-- ----------------------------
+--  Records of `djk_brand`
+-- ----------------------------
+BEGIN;
+INSERT INTO `djk_brand` VALUES ('1', '苹果', '0', '2018-07-24 16:07:03', null);
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `djk_category`
@@ -68,7 +75,14 @@ CREATE TABLE `djk_category` (
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `modify_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COMMENT='商品分类表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='商品分类表';
+
+-- ----------------------------
+--  Records of `djk_category`
+-- ----------------------------
+BEGIN;
+INSERT INTO `djk_category` VALUES ('1', '手机', '0', '1', '1', '0', '2018-07-24 16:07:14', null), ('2', '苹果手机', '1', '1', '2', '0', '2018-07-24 16:07:24', null), ('3', 'iphone4', '2', '1', '3', '0', '2018-07-24 16:07:34', null);
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `djk_customer`
@@ -84,7 +98,14 @@ CREATE TABLE `djk_customer` (
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `modify_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='会员表';
+
+-- ----------------------------
+--  Records of `djk_customer`
+-- ----------------------------
+BEGIN;
+INSERT INTO `djk_customer` VALUES ('1', 'djk', 'E10ADC3949BA59ABBE56E057F20F883E', '15195812224', null, '0', '2018-07-26 13:43:20', null);
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `djk_manager`
@@ -98,7 +119,7 @@ CREATE TABLE `djk_manager` (
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `del_flag` char(1) DEFAULT '0' COMMENT '是否删除 0 否1 是 ',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
 
 -- ----------------------------
 --  Records of `djk_manager`
@@ -116,13 +137,64 @@ CREATE TABLE `djk_manager_role` (
   `manager_id` bigint(20) DEFAULT NULL COMMENT '管理员id',
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COMMENT='管理员和角色的关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='管理员和角色的关联表';
 
 -- ----------------------------
 --  Records of `djk_manager_role`
 -- ----------------------------
 BEGIN;
 INSERT INTO `djk_manager_role` VALUES ('1', '1', '1');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `djk_order`
+-- ----------------------------
+DROP TABLE IF EXISTS `djk_order`;
+CREATE TABLE `djk_order` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `customer_id` bigint(20) DEFAULT NULL COMMENT '会员id',
+  `price` decimal(20,2) DEFAULT NULL COMMENT '订单价格',
+  `status` char(1) DEFAULT NULL COMMENT '订单状态 1:待付款  （用户刚下单）2:代发货  （用户付完款 等待商城发货）3:代收货  （商城已经发货 等待用户确认收货） 4:已完成  5 取消订单',
+  `cancel_reason` char(1) DEFAULT NULL COMMENT '订单取消原因 1:现在不想买 2:商品价格较贵 3:价格波动 4:商品缺货 5:重复下单',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '下单时间',
+  `pay_time` timestamp NULL DEFAULT NULL COMMENT '支付时间',
+  `cancel_time` timestamp NULL DEFAULT NULL COMMENT '取消时间',
+  `receiving_time` timestamp NULL DEFAULT NULL COMMENT '确认收货时间',
+  `delivery_time` timestamp NULL DEFAULT NULL COMMENT '发货时间',
+  `receipt_name` varchar(1024) DEFAULT NULL COMMENT '收货人姓名',
+  `receipt_address` varchar(2046) DEFAULT NULL COMMENT '收货人地址',
+  `receipt_mobile` varchar(11) DEFAULT NULL COMMENT '收货人手机号码',
+  `remark` varchar(2046) DEFAULT NULL COMMENT '订单备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='订单表';
+
+-- ----------------------------
+--  Records of `djk_order`
+-- ----------------------------
+BEGIN;
+INSERT INTO `djk_order` VALUES ('2', '1', '1259520.00', '1', null, '2018-07-27 14:06:18', null, null, null, null, null, null, null, null), ('3', '1', '1259520.00', '1', null, '2018-07-27 14:10:55', null, null, null, null, null, null, null, null), ('4', '1', '1259520.00', '1', null, '2018-07-27 14:11:42', null, null, null, null, null, null, null, null), ('6', '1', '251524.00', '1', null, '2018-07-27 14:31:28', null, null, null, null, null, null, null, null), ('7', '1', '3144050.00', '1', null, '2018-07-28 06:49:11', null, null, null, null, null, null, null, null);
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `djk_order_spu`
+-- ----------------------------
+DROP TABLE IF EXISTS `djk_order_spu`;
+CREATE TABLE `djk_order_spu` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `order_id` bigint(20) DEFAULT NULL COMMENT '订单id',
+  `spu_id` bigint(20) DEFAULT NULL COMMENT '商品id',
+  `num` int(11) DEFAULT NULL COMMENT '购买数量',
+  `spu_name` varchar(1024) DEFAULT NULL COMMENT '商品名称',
+  `spu_price` decimal(20,2) DEFAULT NULL COMMENT '商品价格',
+  `spu_image` varchar(1024) DEFAULT NULL COMMENT '商品图片',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COMMENT='订单和商品的关联表';
+
+-- ----------------------------
+--  Records of `djk_order_spu`
+-- ----------------------------
+BEGIN;
+INSERT INTO `djk_order_spu` VALUES ('3', '2', '13', '20', 'djk手机11', '62881.00', null), ('4', '2', '14', '19', 'iphone4手机', '100.00', null), ('5', '3', '13', '20', 'djk手机11', '62881.00', null), ('6', '3', '14', '19', 'iphone4手机', '100.00', null), ('7', '4', '13', '20', 'djk手机11', '62881.00', null), ('8', '4', '14', '19', 'iphone4手机', '100.00', null), ('10', '6', '13', '4', 'djk手机11', '62881.00', null), ('11', '7', '13', '50', 'djk手机11', '62881.00', null);
 COMMIT;
 
 -- ----------------------------
@@ -136,7 +208,7 @@ CREATE TABLE `djk_role` (
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `modify_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
 -- ----------------------------
 --  Records of `djk_role`
@@ -154,7 +226,7 @@ CREATE TABLE `djk_role_authority` (
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色id',
   `authority_id` bigint(20) DEFAULT NULL COMMENT '权限id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=437 DEFAULT CHARSET=utf8mb4 COMMENT='角色和权限的关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=355 DEFAULT CHARSET=utf8mb4 COMMENT='角色和权限的关联表';
 
 -- ----------------------------
 --  Records of `djk_role_authority`
@@ -162,6 +234,19 @@ CREATE TABLE `djk_role_authority` (
 BEGIN;
 INSERT INTO `djk_role_authority` VALUES ('1', '1', '1'), ('2', '1', '2'), ('3', '1', '3'), ('5', '1', '5'), ('6', '1', '6'), ('9', '1', '9'), ('10', '1', '10'), ('11', '1', '11'), ('12', '1', '12'), ('13', '1', '13'), ('14', '1', '14'), ('15', '1', '15'), ('16', '1', '16'), ('17', '1', '17'), ('18', '1', '18'), ('19', '1', '19'), ('20', '1', '20'), ('21', '1', '21'), ('22', '1', '22'), ('23', '1', '23'), ('24', '1', '24'), ('25', '1', '25'), ('26', '1', '26'), ('27', '1', '27'), ('28', '1', '28'), ('29', '1', '29'), ('30', '1', '30'), ('31', '1', '31'), ('32', '1', '32'), ('33', '1', '33'), ('34', '1', '34'), ('35', '1', '35'), ('36', '1', '36'), ('37', '1', '37'), ('38', '1', '38'), ('39', '1', '39'), ('40', '1', '40'), ('41', '1', '41'), ('42', '1', '42'), ('43', '1', '43'), ('48', '1', '44'), ('95', '1', '45'), ('190', '1', '46'), ('195', '1', '47'), ('241', '1', '48'), ('291', '1', '49'), ('292', '1', '50'), ('293', '1', '51'), ('354', '1', '52');
 COMMIT;
+
+-- ----------------------------
+--  Table structure for `djk_shopping_cart`
+-- ----------------------------
+DROP TABLE IF EXISTS `djk_shopping_cart`;
+CREATE TABLE `djk_shopping_cart` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '注解id',
+  `spu_id` bigint(20) DEFAULT NULL COMMENT '商品id',
+  `customer_id` bigint(20) DEFAULT NULL COMMENT '会员id',
+  `num` int(11) DEFAULT NULL COMMENT '购买数量',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='购物车表';
 
 -- ----------------------------
 --  Table structure for `djk_spu`
@@ -181,6 +266,13 @@ CREATE TABLE `djk_spu` (
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `modify_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='商品表';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COMMENT='商品表';
+
+-- ----------------------------
+--  Records of `djk_spu`
+-- ----------------------------
+BEGIN;
+INSERT INTO `djk_spu` VALUES ('1', 'iphone4手机', '6288.00', '100', '1', '1', '2', '3', null, '1', '2018-07-24 16:07:51', null), ('2', 'iphone手机', '6288.00', '100', '1', '1', '2', '3', null, '1', '2018-07-24 16:10:41', null), ('3', '测试手机', '6498.00', '100', '1', '1', '2', '3', null, '1', '2018-07-24 16:13:56', null), ('4', '我的手机', '100.00', '100', '1', '1', '2', '3', null, '1', '2018-07-24 16:54:23', null), ('5', '华为手机', '1000.00', '100', '1', '1', '2', '3', null, '1', '2018-07-24 16:57:28', null), ('6', '魅族手机', '100.00', '100', '1', '1', '2', '3', null, '1', '2018-07-24 17:01:50', null), ('7', '哈哈手机', '1231.00', '1231', '1', '1', '2', '3', null, '1', '2018-07-24 17:03:30', null), ('8', '12312', '321.00', '1231', '1', '1', '2', '3', null, '1', '2018-07-24 17:03:58', null), ('9', 'ces ', '321.00', '1231', '1', '1', '2', '3', null, '1', '2018-07-24 17:16:48', null), ('10', '124手机', '123.00', '123', '1', '1', '2', '3', null, '1', '2018-07-24 17:19:35', null), ('11', '好的手机', '100.00', '100', '1', '1', '2', '3', null, '1', '2018-07-24 17:22:58', null), ('12', '987手机', '100.00', '10', '1', '1', '2', '3', null, '1', '2018-07-24 17:32:58', null), ('13', 'djk手机11', '62881.00', '46', '1', '1', '2', '3', null, '0', '2018-07-24 17:40:37', '2018-07-24 17:43:02'), ('14', 'iphone4手机', '100.00', '100', '1', '1', '2', '3', null, '0', '2018-07-26 14:37:19', null);
+COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
