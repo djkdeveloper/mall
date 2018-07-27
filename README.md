@@ -14,7 +14,7 @@ jdk的版本是java8
 common_utils 工具类＜/br＞
 mall_goods 商品模块＜/br＞
 mall_order 订单模块＜/br＞
-mall_search 搜索模块＜/br＞  
+mall_search 搜索模块＜/br＞
 mall_server eureka服务模块＜/br＞
 mall_shopping_cart 购物车模块＜/br＞
 mall_user 用户模块＜/br＞
