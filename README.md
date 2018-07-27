@@ -11,16 +11,16 @@
 
 jdk的版本是java8
 
-common_utils 工具类
-mall_goods 商品模块
-mall_order 订单模块
-mall_search 搜索模块
-mall_server eureka服务模块
-mall_shopping_cart 购物车模块
-mall_user 用户模块
-mall_zuul 后端网关路由
-mall_zuul_site 前端网关路由
-拿到项目后导入sql  sql是djk_mall.sql 数据库使用的是mysql 5.7.20
+common_utils 工具类＜/br＞
+mall_goods 商品模块＜/br＞
+mall_order 订单模块＜/br＞
+mall_search 搜索模块＜/br＞  
+mall_server eureka服务模块＜/br＞
+mall_shopping_cart 购物车模块＜/br＞
+mall_user 用户模块＜/br＞
+mall_zuul 后端网关路由＜/br＞
+mall_zuul_site 前端网关路由＜/br＞
+拿到项目后导入sql  sql是djk_mall.sql 数据库使用的是mysql 5.7.20＜/br＞
 
 项目加入了elasticsearch
 这边要注意 elasticesarch 的版本必须是 elasticsearch-5.5.0
