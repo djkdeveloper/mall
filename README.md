@@ -23,24 +23,28 @@
 
 ## 项目本地部署方案
 该项目还在研发阶段，目前还没正式部署 所以暂时先提供开发阶段的环境搭建
+
 拿到项目后导入sql  sql是djk_mall.sql 数据库使用的是mysql 5.7.20
 
-
 启动项目顺序
-mall-server -> mall_zuul -> mall_goods -> mall_user
+mall-server -> mall_zuul->mall_zuul_site -> mall_goods -> mall_user->mall_order->mall_search->mall_shopping_cart
 
 后端启动完成 登录用户名：djk  密码：123456
+
+## 管理端截图
 
 ![image](https://raw.githubusercontent.com/djkdeveloper/mall/master/images/login.png)
 
 ![image](https://raw.githubusercontent.com/djkdeveloper/mall/master/images/desk.png)
 
+## 后端管理的前端地址
+- 前端github地址：https://github.com/djkdeveloper/mall-view.git
+- 前端码云地址：https://gitee.com/djkdeveloper/mall-view.git
 
-前端github地址：https://github.com/djkdeveloper/mall-view.git
-前端码云地址：https://gitee.com/djkdeveloper/mall-view.git
+## 联系我
+QQ:547265436
 
-
-
+##
 License
 Apache License Version 2.0
 
