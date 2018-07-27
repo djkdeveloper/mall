@@ -66,7 +66,7 @@ public interface CustomerMapper {
      * @param params 参数
      * @return 返回会员总数
      */
-    int queryCountByName(Map<String,Object> params);
+    int queryCountByName(Map<String, Object> params);
 
     /**
      * 根据手机号码查询会员总数
@@ -74,5 +74,13 @@ public interface CustomerMapper {
      * @param params 手机号码
      * @return 返回会员总数
      */
-    int queryCountByMobile(Map<String,Object> params);
+    int queryCountByMobile(Map<String, Object> params);
+
+    /**
+     * 根据会员名称查询会员信息
+     *
+     * @param name 会员名称
+     * @return 返回会员信息
+     */
+    Customer queryCustomerByName(String name);
 }

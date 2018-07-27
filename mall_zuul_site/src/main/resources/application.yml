@@ -1,0 +1,18 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8080/eureka/
+
+spring:
+  application:
+    name: mall-zuul-site
+
+server:
+  port: 8087
+
+ignore:
+  authUrls: /sitelogin
+
+jwt:
+  jwtSecretKey: bGVjc2hvcF9qd3Rfc2VjcmV0X2tleQ==
+

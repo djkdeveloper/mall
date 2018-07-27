@@ -49,4 +49,12 @@ public interface CustomerService {
      * @return 成功返回1 失败返回0
      */
     int updateCustomer(Customer customer);
+
+    /**
+     * 根据会员名称查询会员信息
+     *
+     * @param name 会员名称
+     * @return 返回会员信息
+     */
+    Customer queryCustomerByName(String name);
 }

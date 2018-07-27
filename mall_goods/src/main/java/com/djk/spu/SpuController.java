@@ -123,4 +123,16 @@ public class SpuController {
     public int updateSpu(@RequestBody Spu spu) {
         return spuService.updateSpu(spu);
     }
+
+    /**
+     * 减去商品库存
+     *
+     * @param spuId 商品id
+     * @param num   减去库存的数量
+     * @return 成功返回1 失败返回0
+     */
+    @DeleteMapping("/stock")
+    public int reduceSpuStock(long spuId, int num) {
+        return spuService.reduceStock(spuId, num);
+    }
 }

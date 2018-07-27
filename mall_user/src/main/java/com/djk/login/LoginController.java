@@ -1,5 +1,6 @@
 package com.djk.login;
 
+import com.djk.customer.Customer;
 import com.djk.manager.Manager;
 import com.djk.utils.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class LoginController {
     private LoginService loginService;
 
     /**
-     * 登录
+     * 后端登录
      *
      * @param manager 用户信息
      * @return 成功返回0 失败返回-1
@@ -30,5 +31,17 @@ public class LoginController {
     @Log
     public AdminLoginResult login(@RequestBody Manager manager) {
         return loginService.login(manager);
+    }
+
+    /**
+     * 前端登录
+     *
+     * @param customer 会员信息
+     * @return 成功返回0 失败返回-1
+     */
+    @PostMapping("/sitelogin")
+    @Log
+    public SiteLoginResult siteLogin(@RequestBody Customer customer) {
+        return loginService.login(customer);
     }
 }

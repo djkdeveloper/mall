@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 
@@ -77,5 +78,19 @@ public class Customer {
     public Customer cleanPassword() {
         this.password = "******";
         return this;
+    }
+
+    /**
+     * 校验密码是否正确
+     *
+     * @param password 密码明文
+     * @return 正确返回true  错误返回flase
+     */
+    public boolean validatePassword(String password) {
+        if (StringUtils.isEmpty(password)) {
+            return false;
+        }
+
+        return MD5Utils.getInstance().createMd5(password).equalsIgnoreCase(this.password);
     }
 }

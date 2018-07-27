@@ -106,4 +106,8 @@
             #{id}
         </foreach>
     </update>
+
+    <update id="reduceStock" parameterType="java.util.Map">
+          update djk_spu set stock = stock-#{num} where id = #{spuId} and stock>=#{num}
+    </update>
 </mapper>

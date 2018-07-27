@@ -48,4 +48,13 @@ public interface SpuService {
      * @return 成功1 失败=0
      */
     int updateSpu(Spu spu);
+
+    /**
+     * 扣除商品的库存
+     *
+     * @param spuId 商品id
+     * @param num   扣除商品库存的数量
+     * @return 成功返回1 失败返回0
+     */
+    int reduceStock(long spuId, int num);
 }

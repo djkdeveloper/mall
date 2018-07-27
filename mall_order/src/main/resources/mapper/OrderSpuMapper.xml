@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djk.order.OrderSpuMapper">
+
+    <resultMap id="orderSpu" type="com.djk.order.OrderSpu">
+        <result column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="spu_id" property="spuId"/>
+        <result column="num" property="num"/>
+        <result column="spu_name" property="spuName"/>
+        <result column="spu_price" property="spuPrice"/>
+        <result column="spu_image" property="spuImage"/>
+
+    </resultMap>
+
+    <insert id="saveOrderSpus" parameterType="java.util.List">
+        insert into djk_order_spu
+        (order_id, spu_id,num,spu_name,spu_price,spu_image)
+        values
+        <foreach collection="list" item="spu" index="index" separator=",">
+            (
+            #{spu.orderId},
+            #{spu.spuId},
+            #{spu.num},
+            #{spu.spuName},
+            #{spu.spuPrice},
+            #{spu.spuImage}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

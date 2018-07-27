@@ -101,6 +101,12 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.updateCustomer(customer);
     }
 
+    @Log
+    @Override
+    public Customer queryCustomerByName(String name) {
+        return customerMapper.queryCustomerByName(name);
+    }
+
     /**
      * 判断会员名称是否存在
      *

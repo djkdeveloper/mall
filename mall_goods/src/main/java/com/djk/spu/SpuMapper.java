@@ -59,4 +59,12 @@ public interface SpuMapper {
      * @return 成功返回1 失败返回0
      */
     int updateSpu(Spu spu);
+
+    /**
+     * 扣除商品库存
+     *
+     * @param params 参数
+     * @return 成功返回1 失败返回0
+     */
+    int reduceStock(Map<String, Object> params);
 }

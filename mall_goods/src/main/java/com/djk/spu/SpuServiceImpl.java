@@ -96,6 +96,15 @@ public class SpuServiceImpl implements SpuService {
         return 0;
     }
 
+    @Log
+    @Override
+    public int reduceStock(long spuId, int num) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("spuId", spuId);
+        params.put("num", num);
+        return spuMapper.reduceStock(params);
+    }
+
     /**
      * 获得有三级分类和品牌的商品信息
      *

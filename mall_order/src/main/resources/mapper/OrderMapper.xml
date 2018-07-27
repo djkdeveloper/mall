@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djk.order.OrderMapper">
+
+    <resultMap id="order" type="com.djk.order.Order">
+        <result column="id" property="id"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="price" property="price"/>
+        <result column="status" property="status"/>
+        <result column="cancel_reason" property="cancelReason"/>
+        <result column="create_time" property="createTime"/>
+        <result column="pay_time" property="payTime"/>
+        <result column="cancel_time" property="cancelTime"/>
+        <result column="receiving_time" property="receivingTime"/>
+        <result column="delivery_time" property="deliveryTime"/>
+        <result column="receipt_name" property="receiptName"/>
+        <result column="receipt_address" property="receiptAddress"/>
+        <result column="receipt_mobile" property="receiptMobile"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <insert id="saveOrder" parameterType="com.djk.order.Order" useGeneratedKeys="true" keyProperty="id">
+        insert into djk_order(customer_id,price,status,create_time,receipt_name,receipt_address,receipt_mobile,remark) values
+        (#{customerId},#{price},#{status},now(),#{receiptName},#{receiptAddress},#{receiptMobile},#{remark})
+    </insert>
+
+</mapper>

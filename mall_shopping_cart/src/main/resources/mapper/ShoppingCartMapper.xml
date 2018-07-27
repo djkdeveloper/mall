@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djk.cart.ShoppingCartMapper">
+
+    <resultMap id="shoppingCart" type="com.djk.cart.ShoppingCart">
+        <result column="id" property="id"/>
+        <result column="spu_id" property="spuId"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="num" property="num"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+
+    <insert id="saveShoppingCart" parameterType="com.djk.cart.ShoppingCart">
+        insert into djk_shopping_cart (spu_id,customer_id,num,create_time)values (#{spuId},#{customerId},#{num},now())
+    </insert>
+
+    <select id="queryBySpuIdAndCustomerId" parameterType="java.util.Map" resultMap="shoppingCart">
+        select * from djk_shopping_cart where customer_id = #{customerId} and spu_id = #{spuId}
+    </select>
+
+    <update id="updateShoppingCartNum" parameterType="java.util.Map">
+        update  djk_shopping_cart set num = num+#{num} where id = #{id} and customer_id = #{customerId}
+    </update>
+
+    <delete id="deleteShoppingCart" parameterType="com.djk.cart.ShoppingCart">
+        delete from djk_shopping_cart where customer_id = #{customerId} and id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="queryShoppingCart" parameterType="java.lang.Long" resultMap="shoppingCart">
+        select * from djk_shopping_cart where  customer_id = #{customerId}
+    </select>
+
+
+    <select id="queryShoppingCartByIds" parameterType="java.util.Map" resultMap="shoppingCart">
+        select * from djk_shopping_cart where customer_id = #{customerId} and id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

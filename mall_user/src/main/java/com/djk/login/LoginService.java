@@ -1,5 +1,6 @@
 package com.djk.login;
 
+import com.djk.customer.Customer;
 import com.djk.manager.Manager;
 
 /**
@@ -9,10 +10,20 @@ import com.djk.manager.Manager;
 public interface LoginService {
 
     /**
-     * 登录
+     * 后台登录
      *
      * @param manager 登录实体
      * @return AdminLoginResult 登录结果
      */
     AdminLoginResult login(Manager manager);
+
+
+    /**
+     * 前端登录
+     *
+     * @param customer 登录实体
+     * @return 登录结果
+     */
+    SiteLoginResult login(Customer customer);
+
 }

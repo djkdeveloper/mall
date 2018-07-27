@@ -99,4 +99,8 @@
     <select id="queryCountByMobile" parameterType="java.util.Map" resultType="java.lang.Integer">
         select count(1) from djk_customer where del_flag = '0' and mobile = #{mobile}  and id != #{id}
     </select>
+
+    <select id="queryCustomerByName" parameterType="java.lang.String" resultMap="customer">
+                select * from djk_customer where username = #{username} and del_flag = '0'
+    </select>
 </mapper>

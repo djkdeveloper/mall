@@ -21,6 +21,7 @@ mybatis:
 
 jwt:
   jwtSecretKey: bGVjc2hvcF9qd3Rfc2VjcmV0X2tleQ==
+  siteJwtSecretKey: bGVjc2hvcF9qd3Rfc2VjcmV0X2tleQ==
 
 server:
   port: 8082
