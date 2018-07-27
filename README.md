@@ -44,8 +44,7 @@ mall-server -> mall_zuul->mall_zuul_site -> mall_goods -> mall_user->mall_order-
 ## 联系我
 QQ:547265436
 
-##
-License
+## License
 Apache License Version 2.0
 
 
