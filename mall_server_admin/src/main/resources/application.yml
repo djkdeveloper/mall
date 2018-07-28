@@ -10,6 +10,16 @@ eureka:
 spring:
   application:
     name: mall-server-admin
+  mail:
+    host: smtp.163.com
+    username: xx@163.com
+    password: xx
+  boot:
+    admin:
+      notify:
+        mail:
+          to: 547265436@qq.com
+          from: xx@163.com
 
 server:
   port: 8088
