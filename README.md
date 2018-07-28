@@ -15,6 +15,7 @@
 - mall_order 订单模块
 - mall_search 搜索模块
 - mall_server eureka服务模块
+- mall_server_admin 监控模块
 - mall_shopping_cart 购物车模块
 - mall_user 用户模块
 - mall_zuul 后端网关路由
@@ -30,6 +31,8 @@
 mall-server -> mall_zuul->mall_zuul_site -> mall_goods -> mall_user->mall_order->mall_search->mall_shopping_cart
 
 后端启动完成 登录用户名：djk  密码：123456
+
+服务监控访问：http://localhost:8088/
 
 ## 管理端截图
 
