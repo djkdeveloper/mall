@@ -41,9 +41,14 @@ mall-server -> mall_zuul->mall_zuul_site -> mall_goods -> mall_user->mall_order-
 
 我这边使用是用tomcat作为图片服务器器 具体配置为 参数mall_goods模块中的配置文件
 
+```bash
 upload:
-  path:  /Users/dujinkai/Desktop/apache-tomcat-7.0.82/webapps/ROOT/    tomcat位置
+  path:  /Users/dujinkai/Desktop/apache-tomcat-7.0.82/webapps/ROOT/    tomcat位置 图片会防止到这个路径
   accessPath: http://localhost:8888/      访问图片的路径
+
+  比如图片路径为/Users/dujinkai/Desktop/apache-tomcat-7.0.82/webapps/ROOT/1.jpg
+  则图片的访问地址为 http://localhost:8888/1.jpg
+```
 
 ## 管理端截图
 
