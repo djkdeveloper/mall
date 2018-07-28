@@ -19,7 +19,7 @@
 
     <update id="updateSpu" parameterType="com.djk.spu.Spu">
         UPDATE djk_spu SET name = #{name} , price = #{price},stock= #{stock}, brand_id=#{brandId} ,first_cate_id=#{firstCateId} ,
-        second_cate_id = #{secondCateId},third_cate_id=#{thirdCateId},modify_time = now()
+        second_cate_id = #{secondCateId},third_cate_id=#{thirdCateId},modify_time = now(),pic = #{pic}
         WHERE id =#{id}
     </update>
 
@@ -47,6 +47,9 @@
             <if test="brandId != null">
                 brand_id,
             </if>
+            <if test="pic != null">
+                pic,
+            </if>
             del_flag,create_time
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -70,6 +73,9 @@
             </if>
             <if test="brandId != null">
                 #{brandId},
+            </if>
+            <if test="pic != null">
+                #{pic},
             </if>
             '0',now()
         </trim>

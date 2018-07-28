@@ -18,6 +18,10 @@ mybatis:
   configuration:
       map-underscore-to-camel-case: true
 
+upload:
+  path:  /Users/dujinkai/Desktop/apache-tomcat-7.0.82/webapps/ROOT/
+  accessPath: http://localhost:8888/
+
 
 server:
   port: 8083

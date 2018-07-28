@@ -64,6 +64,7 @@ public class SpuServiceImpl implements SpuService {
     public int addSpu(Spu spu) {
         if (spuMapper.addSpu(spu) > 0) {
             esService.addSpuToEs(Arrays.asList(spu.convertToEsSpu()));
+            return 1;
         }
         return 0;
     }

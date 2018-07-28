@@ -66,6 +66,13 @@ public class EsSpu {
     @Field(type = FieldType.Long)
     private long tCateId;
 
+
+    /**
+     * 图片地址
+     */
+    @Field(type = FieldType.Keyword)
+    private String pic;
+
     /**
      * 创建时间
      */

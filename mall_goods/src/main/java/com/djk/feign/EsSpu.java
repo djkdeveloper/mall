@@ -54,6 +54,11 @@ public class EsSpu {
     private long tCateId;
 
     /**
+     * 图片地址
+     */
+    private String pic;
+
+    /**
      * 创建时间
      */
     @JsonSerialize(using = CustomLocalDateTimeSerializer.class)

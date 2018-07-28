@@ -12,7 +12,7 @@ server:
 
 ignore:
   urls: /login
-  authUrls: /login,/manager/managerauthoritys,/authority/test
+  authUrls: /login,/manager/managerauthoritys,/authority/test,/upload
 
 jwt:
   jwtSecretKey: bGVjc2hvcF9qd3Rfc2VjcmV0X2tleQ==

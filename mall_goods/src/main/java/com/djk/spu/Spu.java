@@ -109,6 +109,7 @@ public class Spu {
         esSpu.setSCateId(this.secondCateId);
         esSpu.setTCateId(this.thirdCateId);
         esSpu.setCreateTime(this.createTime);
+        esSpu.setPic(this.pic);
         return esSpu;
     }
 

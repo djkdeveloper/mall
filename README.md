@@ -34,6 +34,17 @@ mall-server -> mall_zuul->mall_zuul_site -> mall_goods -> mall_user->mall_order-
 
 服务监控访问：http://localhost:8088/
 
+## 关于图片存储
+图片存储建议使用第三方比如又拍云
+
+这边使用的是本地图片，本地图片需要一个服务器提供图片访问的能力
+
+我这边使用是用tomcat作为图片服务器器 具体配置为 参数mall_goods模块中的配置文件
+
+upload:
+  path:  /Users/dujinkai/Desktop/apache-tomcat-7.0.82/webapps/ROOT/    tomcat位置
+  accessPath: http://localhost:8888/      访问图片的路径
+
 ## 管理端截图
 
 ![image](https://raw.githubusercontent.com/djkdeveloper/mall/master/images/login.png)
