@@ -50,6 +50,20 @@ upload:
   则图片的访问地址为 http://localhost:8888/1.jpg
 ```
 
+## 调用链监控
+这边调用链监控使用的是sleuth 和zipkin
+
+zipkin 安装方式：
+```bash
+
+curl -sSL https://zipkin.io/quickstart.sh | bash -s
+java -jar zipkin.jar
+
+或者使用docker的安装方式
+docker run -d -p 9411:9411 openzipkin/zipkin
+
+```
+
 ## 管理端截图
 
 ![image](https://raw.githubusercontent.com/djkdeveloper/mall/master/images/login.png)
