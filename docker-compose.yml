@@ -1,0 +1,115 @@
+version: '3'
+services:
+  mysql:
+    image : mysql:5.7.20
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+  es:
+    image: elasticsearch:5.5.0
+    ports:
+      - "9300:9300"
+
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+
+  eureka:
+    image: djkdeveloper/mall_server
+    ports:
+      - "8080:8080"
+  zuul:
+    image: djkdeveloper/mall_zuul
+    ports:
+      - "8081:8081"
+    environment:
+      - EUREKA_HOST=eureka
+      - ZIPKIN=zipkin
+    links:
+      - eureka
+      - zipkin
+  zuul_site:
+    image: djkdeveloper/mall_zuul_site
+    ports:
+      - "8087:8087"
+    environment:
+      - EUREKA_HOST=eureka
+      - ZIPKIN=zipkin
+    links:
+      - eureka
+      - zipkin
+  admin:
+    image: djkdeveloper/mall_server_admin
+    ports:
+      - "8088:8088"
+    environment:
+      - EUREKA_HOST=eureka
+    links:
+      - eureka
+  goods:
+    image: djkdeveloper/mall_goods
+    ports:
+      - "8083:8083"
+    environment:
+      - DB_HOST=mysql
+      - DB_SCHEMA=djk_mall
+      - EUREKA_HOST=eureka
+      - ZIPKIN=zipkin
+    links:
+      - eureka
+      - mysql
+      - zipkin
+  order:
+    image: djkdeveloper/mall_order
+    ports:
+      - "8086:8086"
+    environment:
+      - DB_HOST=mysql
+      - DB_SCHEMA=djk_mall
+      - EUREKA_HOST=eureka
+      - ZIPKIN=zipkin
+    links:
+      - eureka
+      - mysql
+      - zipkin
+  search:
+    image: djkdeveloper/mall_search
+    ports:
+      - "8084:8084"
+    environment:
+      - EUREKA_HOST=eureka
+      - ES=es
+      - ZIPKIN=zipkin
+    links:
+      - eureka
+      - es
+      - zipkin
+  cart:
+    image: djkdeveloper/mall_shopping_cart
+    ports:
+      - "8085:8085"
+    environment:
+      - DB_HOST=mysql
+      - DB_SCHEMA=djk_mall
+      - EUREKA_HOST=eureka
+      - ZIPKIN=zipkin
+    links:
+      - eureka
+      - mysql
+      - zipkin
+  user:
+    image: djkdeveloper/mall_user
+    ports:
+      - "8082:8082"
+    environment:
+      - DB_HOST=mysql
+      - DB_SCHEMA=djk_mall
+      - EUREKA_HOST=eureka
+      - ZIPKIN=zipkin
+    links:
+      - eureka
+      - mysql
+      - zipkin

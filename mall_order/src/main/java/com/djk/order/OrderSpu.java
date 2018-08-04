@@ -1,6 +1,7 @@
 package com.djk.order;
 
 import com.djk.feign.cart.ShoppingCart;
+import com.djk.feign.goods.SpuStock;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -66,5 +67,17 @@ public class OrderSpu {
         }
 
         return orderSpu;
+    }
+
+    /**
+     * 构造减去库存的商品实体
+     *
+     * @return 返回减去库存的商品实体
+     */
+    public SpuStock buildReduceSpu() {
+        SpuStock spuStock = new SpuStock();
+        spuStock.setNum(this.getNum());
+        spuStock.setSpuId(this.getSpuId());
+        return spuStock;
     }
 }

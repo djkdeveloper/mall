@@ -43,6 +43,8 @@ public class SettlementServiceImpl implements SettlementService {
             return OrderSettlement.buildFail();
         }
 
+        // 判断库存是否足够
+
 
         // 查询收货地址
 

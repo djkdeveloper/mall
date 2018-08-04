@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Created by dujinkai on 2018/7/26.
@@ -53,6 +54,13 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private SpuService spuService;
 
+    /**
+     * 分布式事务的考虑
+     * <p>
+     * 1。分布式事务比较难解决，尽量避免 这边可以避免，因为用的是同一个数据库所以可以使用本地事务，在订单模块可以直接操作减库存和删除购物车的操作 不调用商品服务和购物车服务提供的接口
+     * 2。这边是尽量研究下分布式事务 所以 减库存和删除购物车还是走服务提供的接口
+     * 思路 走强一致性 遇到服务之间的异常走补偿机制，如果遇到补偿超时 则走校验机制
+     */
     @Transactional
     @Log
     @Override
@@ -72,6 +80,10 @@ public class OrderServiceImpl implements OrderService {
             return -1;
         }
 
+        // 校验库存是否足够
+
+
+
         // 获得订单信息
         Order order = getOrder(orderSettlement, submitParams);
 
@@ -87,18 +99,10 @@ public class OrderServiceImpl implements OrderService {
         // 删除购物车
         shoppingCartService.deleteShoppingCart(submitParams.getIds());
 
-        // 库存扣除成功标记
-        List<Integer> list = new ArrayList<>();
+        // 扣减库存
+        spuService.reduceSpuStock(order.getOrderSpus().stream().map(OrderSpu::buildReduceSpu).collect(Collectors.toList()));
 
-        // 扣除商品库存
-        order.getOrderSpus().forEach(orderSpu -> {
-            // 说明库存不足
-            if (spuService.reduceSpuStock(orderSpu.getSpuId(), orderSpu.getNum()) > 0) {
-                list.add(1);
-            }
-        });
-
-        return list.size() == order.getOrderSpus().size() ? 1 : -2;
+        return 1;
     }
 
     /**

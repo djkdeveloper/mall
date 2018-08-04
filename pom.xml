@@ -10,9 +10,14 @@
     <modules>
         <module>common_utils</module>
         <module>mall_goods</module>
+        <module>mall_order</module>
+        <module>mall_search</module>
         <module>mall_server</module>
+        <module>mall_server_admin</module>
+        <module>mall_shopping_cart</module>
         <module>mall_user</module>
         <module>mall_zuul</module>
+        <module>mall_zuul_site</module>
     </modules>
     <packaging>pom</packaging>
 

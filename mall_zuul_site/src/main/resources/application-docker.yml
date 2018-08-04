@@ -1,0 +1,26 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST}:8080/eureka/
+
+spring:
+  application:
+    name: mall-zuul-site
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://${ZIPKIN}:9411/
+
+server:
+  port: 8087
+
+ignore:
+  authUrls: /sitelogin
+
+jwt:
+  jwtSecretKey: bGVjc2hvcF9qd3Rfc2VjcmV0X2tleQ==
+

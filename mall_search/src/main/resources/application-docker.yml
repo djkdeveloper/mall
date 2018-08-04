@@ -1,0 +1,23 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST}:8080/eureka/
+
+spring:
+  application:
+    name: mall-search
+  data:
+    elasticsearch:
+      clusterNodes: ${ES}:9300
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://${ZIPKIN}:9411/
+
+server:
+  port: 8084
+

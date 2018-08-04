@@ -2,6 +2,8 @@ package com.djk.spu;
 
 import com.djk.utils.PageHelper;
 
+import java.util.List;
+
 /**
  * Created by dujinkai on 2018/7/12.
  * 商品服务接口
@@ -52,9 +54,8 @@ public interface SpuService {
     /**
      * 扣除商品的库存
      *
-     * @param spuId 商品id
-     * @param num   扣除商品库存的数量
+     * @param spuStocks 商品库存
      * @return 成功返回1 失败返回0
      */
-    int reduceStock(long spuId, int num);
+    int reduceStock(List<SpuStock> spuStocks);
 }
