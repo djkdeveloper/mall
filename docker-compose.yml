@@ -9,6 +9,8 @@ services:
       - MYSQL_ROOT_PASSWORD=123456
   es:
     image: elasticsearch:5.5.0
+    environment:
+      - ES_JAVA_OPTS=-Xms128m -Xmx128m
     ports:
       - "9300:9300"
 
