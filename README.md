@@ -2,7 +2,7 @@
 商城管理端后端
 
 ## 简介
-该项目是一个简单的商城，用于springcloud的练手 后端是基于springcloud 开发的
+该项目是一个简单的商城，用于springcloud的练手 后端是基于springcloud 开发的 认证使用oauth2
 
 ## 准备工作
 - 该项目是基于maven的项目，里面用到了lombok  所以导入该项目后 ide需要安装lombok
@@ -11,6 +11,7 @@
 
 ## 模块说明
 - common_utils 工具类
+- mall_auth 认证资源模块
 - mall_goods 商品模块
 - mall_order 订单模块
 - mall_search 搜索模块
