@@ -7,6 +7,7 @@ import com.djk.category.CategoryService;
 import com.djk.utils.BaseResponse;
 import com.djk.utils.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class SpuController {
      * @return 返回商品信息
      */
     @PostMapping("/list")
+    @PreAuthorize("hasAuthority('sys.spu.list.post')")
     public BaseResponse querySpus(PageHelper<Spu> pageHelper, String name) {
         return BaseResponse.build(spuService.querySpus(pageHelper, name));
     }
@@ -55,6 +57,7 @@ public class SpuController {
      * @return 返回所有品牌信息
      */
     @GetMapping("/allbrands")
+    @PreAuthorize("hasAuthority('sys.spu.allbrands.get')")
     public List<Brand> queryAllBrands() {
         return brandService.queryAllBrands();
     }
@@ -65,6 +68,7 @@ public class SpuController {
      * @return 返回所有一级分类
      */
     @GetMapping("/firstcategory")
+    @PreAuthorize("hasAuthority('sys.spu.firstcategory.get')")
     public List<Category> queryAllFirstCategorys() {
         return categoryService.queryCategoryByGrade(1);
     }
@@ -76,6 +80,7 @@ public class SpuController {
      * @return 成功返回1 失败返回0
      */
     @PostMapping
+    @PreAuthorize("hasAuthority('sys.spu.post')")
     public int addSpu(@RequestBody Spu spu) {
         return spuService.addSpu(spu);
     }
@@ -87,6 +92,7 @@ public class SpuController {
      * @return 成功返回》0 失败返回0
      */
     @DeleteMapping
+    @PreAuthorize("hasAuthority('sys.spu.delete')")
     public int deleteSpus(Long[] ids) {
         return spuService.deleteSpus(ids);
     }
@@ -98,6 +104,7 @@ public class SpuController {
      * @return 返回分类下的子分类
      */
     @GetMapping("/querycaterorychildren/{id}")
+    @PreAuthorize("hasAuthority('sys.spu.querycaterorychildren.get')")
     public List<Category> queryCateroryChildren(@PathVariable long id) {
         return categoryService.queryChildren(id);
     }
@@ -109,6 +116,7 @@ public class SpuController {
      * @return 返回商品信息
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('sys.spu.get')")
     public Spu querySpuById(@PathVariable long id) {
         return spuService.queryById(id);
     }
@@ -120,6 +128,7 @@ public class SpuController {
      * @return 成功返回1 失败返回0
      */
     @PutMapping
+    @PreAuthorize("hasAuthority('sys.spu.put')")
     public int updateSpu(@RequestBody Spu spu) {
         return spuService.updateSpu(spu);
     }
@@ -131,6 +140,7 @@ public class SpuController {
      * @return 成功返回1 失败返回0
      */
     @DeleteMapping("/stock")
+    @PreAuthorize("hasAuthority('sys.spu.stock.delete')")
     public int reduceSpuStock(@RequestBody List<SpuStock> spuStocks) {
         return spuService.reduceStock(spuStocks);
     }

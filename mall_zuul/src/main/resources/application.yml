@@ -19,9 +19,23 @@ spring:
 server:
   port: 8081
 
-ignore:
-  urls: /login
-  authUrls: /login,/manager/managerauthoritys,/authority/test,/upload
 
-jwt:
-  jwtSecretKey: bGVjc2hvcF9qd3Rfc2VjcmV0X2tleQ==
+zuul:
+  routes:
+    uaa:
+      path: /uaa/**
+      sensitiveHeaders:
+      serviceId: mall-auth
+  add-proxy-headers: true
+  sensitive-headers:
+
+
+
+security:
+  oauth2:
+    client:
+      access-token-uri: http://localhost:8081/uaa/oauth/token
+      user-authorization-uri: http://localhost:8081/uaa/oauth/authorize
+    resource:
+      user-info-uri: http://localhost:8081/uaa/user
+      prefer-token-info: false

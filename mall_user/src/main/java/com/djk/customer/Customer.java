@@ -63,12 +63,6 @@ public class Customer {
     @JsonDeserialize(using = CustomLocalDateTimeDeserializer.class)
     private LocalDateTime modifyTime;
 
-    /**
-     * 给密码进行md5加密
-     */
-    public void md5Password() {
-        this.password = MD5Utils.getInstance().createMd5(this.password);
-    }
 
     /**
      * 清理密码

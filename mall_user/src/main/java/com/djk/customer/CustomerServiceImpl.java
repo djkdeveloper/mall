@@ -5,6 +5,7 @@ import com.djk.utils.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -25,6 +26,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerMapper customerMapper;
 
+    /**
+     * 注入加密工具类
+     */
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Log
     @Override
     public PageHelper<Customer> queryCustomers(PageHelper<Customer> pageHelper, String name, String mobile) {
@@ -41,7 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
             log.error("addCustomer fail ...due to customer is null...");
             return 0;
         }
-        customer.md5Password();
+        customer.setPassword(bCryptPasswordEncoder.encode(customer.getPassword()));
 
         // 判断手机号码或者用户名称是否存在 存在直接返回
         if (isCustomerNameExist(customer.getUsername(), 0)) {

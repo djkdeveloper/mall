@@ -27,10 +27,10 @@ public interface ManagerService {
     /**
      * 查询管理员信息和管理员的权限信息
      *
-     * @param id 用户id
+     * @param username 用户名称
      * @return 返回用户的权限信息和用户信息
      */
-    Manager queryUserAuthority(long id);
+    Manager queryUserAuthority(String username);
 
     /**
      * 分页查询员工信息

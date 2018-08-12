@@ -6,8 +6,6 @@
     <resultMap id="authority" type="com.djk.authority.Authority">
         <result column="id" property="id"/>
         <result column="name" property="name"/>
-        <result column="url" property="url"/>
-        <result column="action" property="action"/>
         <result column="parentId" property="parentId"/>
         <result column="grade" property="grade"/>
         <result column="code" property="code"/>

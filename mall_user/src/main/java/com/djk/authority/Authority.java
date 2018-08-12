@@ -30,11 +30,6 @@ public class Authority {
     private String name;
 
     /**
-     * 权限对应的访问地址
-     */
-    private String url;
-
-    /**
      * 父级id 如果是第一级  则为0
      */
     private int parentId;
@@ -48,11 +43,6 @@ public class Authority {
      * 菜单权限code
      */
     private String code;
-
-    /**
-     * 动作 目前有POST GET PUT DELETE
-     */
-    private String action;
 
     /**
      * 字节点

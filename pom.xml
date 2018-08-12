@@ -18,6 +18,7 @@
         <module>mall_user</module>
         <module>mall_zuul</module>
         <module>mall_zuul_site</module>
+        <module>mall_auth</module>
     </modules>
     <packaging>pom</packaging>
 

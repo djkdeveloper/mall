@@ -1,0 +1,36 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8080/eureka/
+
+spring:
+  application:
+    name: mall-auth
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/djk_mall?useUnicode=true&characterEncoding=UTF-8&relaxAutoCommit=true&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: 123456
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://localhost:9411/
+
+
+server:
+  port: 8089
+
+mybatis:
+  mapper-locations: mapper/**Mapper.xml
+  configuration:
+      map-underscore-to-camel-case: true
+
+
+security:
+  oauth2:
+    resource:
+      filter-order: 3

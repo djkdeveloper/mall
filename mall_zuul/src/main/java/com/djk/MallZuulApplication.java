@@ -2,6 +2,7 @@ package com.djk;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
@@ -16,6 +17,7 @@ import java.util.Collections;
 @SpringBootApplication
 @EnableZuulProxy
 @EnableDiscoveryClient
+@EnableOAuth2Sso
 public class MallZuulApplication {
 
     public static void main(String[] args) {
@@ -40,14 +42,5 @@ public class MallZuulApplication {
         config.addAllowedMethod("PATCH");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
-    }
-
-    @Bean
-    @LoadBalanced
-    public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setInterceptors(Collections.singletonList(new RibbonInterceptor()));
-
-        return restTemplate;
     }
 }

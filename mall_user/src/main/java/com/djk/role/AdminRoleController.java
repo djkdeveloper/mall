@@ -2,13 +2,18 @@ package com.djk.role;
 
 import com.djk.authority.Authority;
 import com.djk.authority.AuthorityService;
+import com.djk.manager.Manager;
+import com.djk.manager.ManagerService;
 import com.djk.utils.BaseResponse;
 import com.djk.utils.LoginUtils;
 import com.djk.utils.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 /**
  * Created by dujinkai on 2018/7/15.
@@ -30,9 +35,11 @@ public class AdminRoleController {
     @Autowired
     private AuthorityService authorityService;
 
-
+    /**
+     * 注入管理服务接口
+     */
     @Autowired
-    private HttpServletRequest request;
+    private ManagerService managerService;
 
 
     /**
@@ -43,8 +50,9 @@ public class AdminRoleController {
      * @return 返回查询信息
      */
     @PostMapping("/list")
-    public BaseResponse queryRoles(PageHelper<AdminRole> pageHelper, String name) {
-        return BaseResponse.build(adminRoleService.queryRoles(pageHelper, name, LoginUtils.getInstance().getUserId(request)));
+    @PreAuthorize("hasAuthority('sys.role.list.post')")
+    public BaseResponse queryRoles(PageHelper<AdminRole> pageHelper, String name, Authentication authentication) {
+        return BaseResponse.build(adminRoleService.queryRoles(pageHelper, name, getUserId(authentication)));
     }
 
 
@@ -54,8 +62,9 @@ public class AdminRoleController {
      * @return 返回当前角色的权限
      */
     @GetMapping("/authoritiesinduction")
-    public Authority queryAuthoritiesInduction() {
-        return authorityService.queryManagerAuthoritysInduction(LoginUtils.getInstance().getUserId(request));
+    @PreAuthorize("hasAuthority('sys.role.authoritiesinduction.get')")
+    public Authority queryAuthoritiesInduction(Authentication authentication) {
+        return authorityService.queryManagerAuthoritysInduction(getUserId(authentication));
     }
 
     /**
@@ -65,8 +74,9 @@ public class AdminRoleController {
      * @return 成功》0 失败返回0
      */
     @PostMapping
-    public int addRole(@RequestBody AdminRole adminRole) {
-        return adminRoleService.addRoles(adminRole.addCreator(LoginUtils.getInstance().getUserId(request)));
+    @PreAuthorize("hasAuthority('sys.role.post')")
+    public int addRole(@RequestBody AdminRole adminRole, Authentication authentication) {
+        return adminRoleService.addRoles(adminRole.addCreator(getUserId(authentication)));
     }
 
     /**
@@ -76,8 +86,9 @@ public class AdminRoleController {
      * @return 成功返回》0 失败返回0 -1 角色被员工使用不能删除
      */
     @DeleteMapping
-    public int deleteRoles(long[] ids) {
-        return adminRoleService.deleteRoles(ids, LoginUtils.getInstance().getUserId(request));
+    @PreAuthorize("hasAuthority('sys.role.delete')")
+    public int deleteRoles(long[] ids, Authentication authentication) {
+        return adminRoleService.deleteRoles(ids, getUserId(authentication));
     }
 
     /**
@@ -87,8 +98,9 @@ public class AdminRoleController {
      * @return 返回角色信息
      */
     @GetMapping("/{id}")
-    public AdminRole queryById(@PathVariable long id) {
-        return adminRoleService.queryRoleById(id, LoginUtils.getInstance().getUserId(request));
+    @PreAuthorize("hasAuthority('sys.role.get')")
+    public AdminRole queryById(@PathVariable long id, Authentication authentication) {
+        return adminRoleService.queryRoleById(id, getUserId(authentication));
     }
 
     /**
@@ -98,8 +110,20 @@ public class AdminRoleController {
      * @return 成功返回1 失败返回0
      */
     @PutMapping
-    public int updateRole(@RequestBody AdminRole adminRole) {
-        adminRole.setCreator(LoginUtils.getInstance().getUserId(request));
+    @PreAuthorize("hasAuthority('sys.role.put')")
+    public int updateRole(@RequestBody AdminRole adminRole, Authentication authentication) {
+        adminRole.setCreator(getUserId(authentication));
         return adminRoleService.updateRole(adminRole);
+    }
+
+    /**
+     * 获得管理员id
+     *
+     * @param authentication 认证信息
+     * @return 返回管理员id
+     */
+    private long getUserId(Authentication authentication) {
+        Manager manager = managerService.queryByName(authentication.getName());
+        return Objects.nonNull(manager) ? manager.getId() : 0;
     }
 }

@@ -1,6 +1,7 @@
 package com.djk.category;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class CategoryController {
      * @return 返回品牌信息
      */
     @GetMapping("/list")
+    @PreAuthorize("hasAuthority('sys.category.list.get')")
     public List<Category> queryCategorys() {
         return categoryService.queryCategorys();
     }
@@ -36,6 +38,7 @@ public class CategoryController {
      * @return 返回该层级的分类
      */
     @GetMapping("/grade/{grade}")
+    @PreAuthorize("hasAuthority('sys.category.grade.get')")
     public List<Category> queryCategoryByGrade(@PathVariable int grade) {
         return categoryService.queryCategoryByGrade(grade);
     }
@@ -47,6 +50,7 @@ public class CategoryController {
      * @return 成功》0 失败= 0
      */
     @PostMapping
+    @PreAuthorize("hasAuthority('sys.category.post')")
     public int addCategory(@RequestBody Category category) {
         return categoryService.addCategory(category);
     }
@@ -58,6 +62,7 @@ public class CategoryController {
      * @return 返回分类信息
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('sys.category.get')")
     public Category queryCategoryById(@PathVariable long id) {
         return categoryService.queryCategoryById(id);
     }
@@ -69,6 +74,7 @@ public class CategoryController {
      * @return 成功返回1 失败返回0
      */
     @PutMapping
+    @PreAuthorize("hasAuthority('sys.category.put')")
     public int updateCategory(@RequestBody Category category) {
         return categoryService.updateCategory(category);
     }
@@ -80,6 +86,7 @@ public class CategoryController {
      * @return 返回-1  下面有子分类不能删除  1 成功  0 失败
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('sys.category.delete')")
     public int deleteCategory(@PathVariable long id) {
         return categoryService.deleteCategory(id);
     }

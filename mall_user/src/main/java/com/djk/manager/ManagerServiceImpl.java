@@ -7,6 +7,7 @@ import com.djk.utils.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -42,6 +43,12 @@ public class ManagerServiceImpl implements ManagerService {
     @Autowired
     private AdminRoleService adminRoleService;
 
+    /**
+     * 注入加密工具类
+     */
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Log
     @Override
     public Manager queryByName(String userName) {
@@ -62,9 +69,9 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Log
     @Override
-    public Manager queryUserAuthority(long id) {
+    public Manager queryUserAuthority(String username) {
         // 查询用户信息
-        Manager manager = this.queryById(id);
+        Manager manager = this.queryByName(username);
 
         if (Objects.isNull(manager)) {
             log.error("queryUserAuthority fail due to manager is null...");
@@ -72,7 +79,7 @@ public class ManagerServiceImpl implements ManagerService {
         }
 
         // 设置管理员的权限
-        manager.cleanPassword().setAuthorities(authorityService.queryManagerAuthoritys(id));
+        manager.cleanPassword().setAuthorities(authorityService.queryManagerAuthoritys(manager.getId()));
         return manager;
     }
 
@@ -104,7 +111,7 @@ public class ManagerServiceImpl implements ManagerService {
         }
 
         // 密码加密
-        manager.md5Password();
+        manager.setPassword(bCryptPasswordEncoder.encode(manager.getPassword()));
 
         // 新增员工
         adminUserMapper.addManager(manager);

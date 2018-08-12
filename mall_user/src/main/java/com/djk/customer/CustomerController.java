@@ -4,6 +4,7 @@ import com.djk.utils.BaseResponse;
 import com.djk.utils.PageHelper;
 import lombok.experimental.Delegate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -29,6 +30,7 @@ public class CustomerController {
      * @return 返回会员信息
      */
     @PostMapping("/list")
+    @PreAuthorize("hasAuthority('sys.customer.list.post')")
     public BaseResponse queryCustomers(PageHelper<Customer> pageHelper, String name, String mobile) {
         return BaseResponse.build(customerService.queryCustomers(pageHelper, name, mobile));
     }
@@ -40,6 +42,7 @@ public class CustomerController {
      * @return 成功返回1 失败返回 0
      */
     @PostMapping
+    @PreAuthorize("hasAuthority('sys.customer.post')")
     public int addCustomer(@RequestBody Customer customer) {
         return customerService.addCustomer(customer);
     }
@@ -51,6 +54,7 @@ public class CustomerController {
      * @return 成功》0 失败= 0
      */
     @DeleteMapping
+    @PreAuthorize("hasAuthority('sys.customer.delete')")
     public int deleteCustomers(long[] ids) {
         return customerService.deleteCustomers(ids);
     }
@@ -62,6 +66,7 @@ public class CustomerController {
      * @return 返回会员信息
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('sys.customer.query')")
     public Customer queryCustomerById(@PathVariable long id) {
         return customerService.queryCustomerById(id);
     }
@@ -73,6 +78,7 @@ public class CustomerController {
      * @return 成功返回1 失败返回0
      */
     @PutMapping
+    @PreAuthorize("hasAuthority('sys.customer.put')")
     public int updateCustomer(@RequestBody Customer customer) {
         return customerService.updateCustomer(customer);
     }

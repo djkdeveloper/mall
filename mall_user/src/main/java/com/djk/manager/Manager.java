@@ -81,19 +81,6 @@ public class Manager {
     }
 
 
-    /**
-     * 校验密码是否正确
-     *
-     * @param password 密码明文
-     * @return 正确返回true  错误返回flase
-     */
-    public boolean validatePassword(String password) {
-        if (StringUtils.isEmpty(password)) {
-            return false;
-        }
-
-        return MD5Utils.getInstance().createMd5(password).equalsIgnoreCase(this.password);
-    }
 
     // 清理密码
     public Manager cleanPassword() {
@@ -113,11 +100,5 @@ public class Manager {
         return this;
     }
 
-    /**
-     * 给密码进行md5加密
-     */
-    public void md5Password() {
-        this.password = MD5Utils.getInstance().createMd5(this.password);
-    }
 
 }

@@ -1,4 +1,4 @@
-package com.djk.authority;
+package com.djk.auth.manager;
 
 import com.djk.utils.CustomLocalDateTimeDeserializer;
 import com.djk.utils.CustomLocalDateTimeSerializer;
@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Created by dujinkai on 2018/7/9.
@@ -26,11 +27,6 @@ public class Authority {
     private String name;
 
     /**
-     * 权限对应的访问地址
-     */
-    private String url;
-
-    /**
      * 父级id 如果是第一级  则为0
      */
     private int parentId;
@@ -46,9 +42,14 @@ public class Authority {
     private String code;
 
     /**
-     * 动作 目前有POST GET PUT DELETE
+     * 权限
      */
-    private String action;
+    private String authority;
+
+    /**
+     * 字节点
+     */
+    private List<Authority> children;
 
 
     /**

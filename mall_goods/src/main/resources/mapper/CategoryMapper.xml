@@ -37,7 +37,7 @@
     </update>
 
     <select id="queryChildrenNum" parameterType="java.lang.Long" resultType="java.lang.Integer">
-        select count(1) from djk_category where parent_id = #{id}
+        select count(1) from djk_category where parent_id = #{id} and del_flag = '0'
     </select>
 
     <select id="queryChildren" parameterType="java.lang.Long" resultMap="category">
