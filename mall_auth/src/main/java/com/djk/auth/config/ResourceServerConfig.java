@@ -19,7 +19,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     /**
      * 不需要认证的请求
      */
-    private static String[] WHITE_LIST = new String[]{"/adduser"};
+    private static String[] WHITE_LIST = new String[]{"/actuator/health"};
 
     @Override
     public void configure(HttpSecurity http) throws Exception {

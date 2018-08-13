@@ -22,6 +22,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         http.cors().and().csrf().disable()   // 前后端分离 不需要csrf
                 .exceptionHandling().authenticationEntryPoint((httpServletRequest, httpServletResponse, e) -> httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")).and() // 设置没有登录认证时候的错误提醒为401
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().anyRequest().authenticated().and().httpBasic();
+                .authorizeRequests().antMatchers("/actuator/health").permitAll().anyRequest().authenticated().and().httpBasic();
     }
 }
